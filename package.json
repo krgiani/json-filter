@@ -1,0 +1,14 @@
+{
+  "name": "nine-digital",
+  "version": "1.0.0",
+  "description": "9Digital Coding Challenge - JSON Data Filter",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kriska Budiman",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.14.1"
+  }
+}
