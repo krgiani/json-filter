@@ -4,6 +4,8 @@ var PORT = process.env.PORT || 3000;
 
 var fs = require('fs');
 var jsonObj;
+
+// Parse JSON Asynchrounously
 fs.readFile('./json-example.json', 'utf8', function(error, data) {
     if (error) {
         throw error;
@@ -13,11 +15,22 @@ fs.readFile('./json-example.json', 'utf8', function(error, data) {
 
 app.get('/', function(req, res) {
     
-    jsonObj = jsonObj.payload.filter( function(obj) {
-        return (obj.drm && obj.episodeCount > 0);
+    var json = {};
+    var key = 'response';
+    json[key] = [];
+    
+    jsonObj.payload.forEach( function(obj) {
+        if (obj.drm && obj.episodeCount > 0) {
+            var result = {
+                image: obj.image.showImage,
+                slug: obj.slug,
+                title: obj.title
+            };
+            json[key].push(result);
+        }
     });
     
-    res.send({response: jsonObj});
+    res.send(json);
 });
 
 app.listen(PORT, function() {
