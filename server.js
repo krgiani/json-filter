@@ -14,11 +14,12 @@ fs.readFile('./json-example.json', 'utf8', function(error, data) {
 });
 
 app.get('/', function(req, res) {
-    
     var json = {};
     var key = 'response';
     json[key] = [];
     
+    // Iterate through JSON and take objects which have properties:
+    // drm:true and episodeCount>0
     jsonObj.payload.forEach( function(obj) {
         if (obj.drm && obj.episodeCount > 0) {
             var result = {
@@ -29,7 +30,6 @@ app.get('/', function(req, res) {
             json[key].push(result);
         }
     });
-    
     res.send(json);
 });
 
