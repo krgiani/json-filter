@@ -1,19 +1,14 @@
 var express = require('express');
+var bodyParser = require('body-parser');
+
 var app = express();
 var PORT = process.env.PORT || 3000;
 
-var fs = require('fs');
-var jsonObj;
+app.use(bodyParser.json());
 
-// Parse JSON Asynchrounously
-fs.readFile('./json-example.json', 'utf8', function(error, data) {
-    if (error) {
-        throw error;
-    }
-    jsonObj = JSON.parse(data);
-});
-
-app.get('/', function(req, res) {
+// POST /
+app.post('/', function(req, res) {
+    var jsonObj = req.body;
     var json = {};
     var key = 'response';
     json[key] = [];
