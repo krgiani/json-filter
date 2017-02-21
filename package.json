@@ -2,14 +2,19 @@
   "name": "nine-digital",
   "version": "1.0.0",
   "description": "9Digital Coding Challenge - JSON Data Filter",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": "Kriska Budiman",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.16.1",
-    "express": "^4.14.1"
+    "chai": "^3.5.0",
+    "express": "^4.14.1",
+    "mocha": "^3.2.0"
+  },
+  "devDependencies": {
+    "chai-files": "^1.4.0"
   }
 }

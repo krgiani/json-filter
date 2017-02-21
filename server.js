@@ -9,13 +9,18 @@ app.use(bodyParser.json());
 
 // POST /
 app.post('/', function(req, res) {
+    var acceptsJSON = req.get('content-type');
     var jsonObj = req.body;
 
-    filterData(jsonObj).then( function(jsonResult) {
-        res.send(jsonResult);    
-    }).catch( function(err) {
-        res.send({error:  err});
-    });
+    if (acceptsJSON === 'application/json') {
+        filterData(jsonObj).then( function(jsonResult) {
+            res.send(jsonResult);    
+        }).catch( function(error) {
+            res.send(error);
+        });
+    } else {
+        res.send({error: 'Could not decode request: JSON parsing failed'});    
+    }
 });
 
 app.listen(PORT, function() {
