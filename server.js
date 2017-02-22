@@ -7,6 +7,11 @@ var PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
+// GET /
+app.get('/', function(req, res) {
+    res.send('Please send a JSON request.');
+});
+
 // POST /
 app.post('/', function(req, res) {
     var acceptsJSON = req.get('content-type');
@@ -16,13 +21,13 @@ app.post('/', function(req, res) {
         filterData(jsonObj).then( function(jsonResult) {
             res.send(jsonResult);    
         }).catch( function(error) {
-            res.send(error);
+            res.status(404).send(error);
         });
     } else {
-        res.send({error: 'Could not decode request: JSON parsing failed'});    
+        res.status(404).send({error: 'Could not decode request: JSON parsing failed'});    
     }
 });
 
 app.listen(PORT, function() {
-    console.log('Express listening on port: ' + PORT);
+    console.log('Server started on port: ' + PORT);
 });

@@ -1,4 +1,4 @@
-var filterData = require('../filter.js');
+var supertest = require('supertest');
 var chai = require('chai');
 var chaiFiles = require('chai-files');
 var fs = require('fs');
@@ -7,38 +7,85 @@ chai.use(chaiFiles);
 
 var expect = chai.expect;
 var file = chaiFiles.file;
+var server = supertest.agent('http://localhost:3000');
+var errorResponse = file('test/test-results/error-respond.json');
 
-describe('Filter function', function() {
-    it('should return shows which have drm=true and episodeCount>0', function() {
+// GET method test
+describe('GET /', function() {
+    it('should return texts describing the service', function(done) {
+        server
+        .get('/')
+        .expect('Content-Type', /text/)
+        .expect(200, done);
+    });
+})
+
+// POST method test
+describe('POST /', function() {
+    it('should return shows which have drm=true and episodeCount>0', function(done) {
         var jsonObj = JSON.parse(fs.readFileSync('test/test-cases/proper-request.json', 'utf8'));
+        var expectedResult = file('test/test-results/proper-respond.json');
         
-        return filterData(jsonObj).then( function(json) {
-            expect(JSON.stringify(json)).to.equal(file('test/test-results/proper-respond.json'));
+        server
+        .post('/')
+        .send(jsonObj)
+        .expect(200)
+        .end(function(err, res){
+            if (err) {
+                done(err);
+            } else {
+                expect(JSON.stringify(res.body)).to.equal(expectedResult);
+                done();
+            }
         });
     });
     
-    it('should return error given empty body', function() {
-        var jsonObj = '';
-        
-        return filterData(jsonObj).catch( function(error) {
-            expect(JSON.stringify(error)).to.equal(file('test/test-results/error-respond.json'));
+    it('should return error given empty body', function(done) {
+        server
+        .post('/')
+        .send()
+        .expect(404)
+        .end(function(err, res) {
+            if (err) {
+                done(err);
+            } else {
+                expect(JSON.stringify(res.body)).to.equal(errorResponse);
+                done();
+            }
         });
     });
     
-    it('should return error if payload key does not exist', function() {
+    it('should return error if payload key does not exist', function(done) {
         var jsonObj = JSON.parse(fs.readFileSync('test/test-cases/no-payload-request.json', 'utf8'));
         
-        return filterData(jsonObj).catch( function(error) {
-            expect(JSON.stringify(error)).to.equal(file('test/test-results/error-respond.json'));
+        server
+        .post('/')
+        .send(jsonObj)
+        .expect(404)
+        .end(function(err, res) {
+            if (err) {
+                done(err);
+            } else {
+                expect(JSON.stringify(res.body)).to.equal(errorResponse);
+                done();
+            }
         });
     });
     
-    it('should return error given non-json request', function() {
-        var jsonObj = JSON.parse(fs.readFileSync('test/test-cases/non-json-request.txt', 'utf8'));
+    it('should return error given non-json request', function(done) {
+        var jsonObj = fs.readFileSync('test/test-cases/non-json-request.txt', 'utf8');
         
-        return filterData(jsonObj).catch( function(error) {
-            expect(JSON.stringify(error)).to.equal(file('test/test-results/error-respond.json'));
+        server
+        .post('/')
+        .send(jsonObj)
+        .expect(404)
+        .end(function(err, res) {
+            if (err) {
+                done(err);
+            } else {
+                expect(JSON.stringify(res.body)).to.equal(errorResponse);
+                done();
+            }
         });
     });
 });
-        
