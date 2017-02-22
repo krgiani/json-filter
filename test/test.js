@@ -36,7 +36,7 @@ describe('POST /', function() {
         .post('/')
         .send()
         .expect('Content-Type', /json/)
-        .expect(404)
+        .expect(400)
         .end(function(err, res) {
             if (err) {
                 done(err);
@@ -54,7 +54,7 @@ describe('POST /', function() {
         .post('/')
         .send(jsonObj)
         .expect('Content-Type', /json/)
-        .expect(404)
+        .expect(400)
         .end(function(err, res) {
             if (err) {
                 done(err);
@@ -72,7 +72,7 @@ describe('POST /', function() {
         .post('/')
         .send(jsonObj)
         .expect('Content-Type', /json/)
-        .expect(404)
+        .expect(400)
         .end(function(err, res) {
             if (err) {
                 done(err);
@@ -90,7 +90,7 @@ describe('POST /', function() {
         .post('/badrequest')
         .send(jsonObj)
         .expect('Content-Type', /json/)
-        .expect(404)
+        .expect(400)
         .end(function(err, res) {
             if (err) {
                 done(err);

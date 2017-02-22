@@ -33,7 +33,7 @@ app.all('*', function(req, res, next) {
 
 // Handle errors
 app.use(function(err, req, res, next) {
-  res.status(404).send({error: 'Could not decode request: JSON parsing failed'});
+  res.status(400).send({error: 'Could not decode request: JSON parsing failed'});
 });
 
 app.listen(PORT, function() {
