@@ -10,17 +10,7 @@ var file = chaiFiles.file;
 var server = supertest.agent('http://localhost:3000');
 var errorResponse = file('test/test-results/error-respond.json');
 
-// GET method test
-describe('GET /', function() {
-    it('should return texts describing the service', function(done) {
-        server
-        .get('/')
-        .expect('Content-Type', /text/)
-        .expect(200, done);
-    });
-})
-
-// POST method test
+// POST method tests
 describe('POST /', function() {
     it('should return shows which have drm=true and episodeCount>0', function(done) {
         var jsonObj = JSON.parse(fs.readFileSync('test/test-cases/proper-request.json', 'utf8'));

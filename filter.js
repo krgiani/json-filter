@@ -1,5 +1,5 @@
 // This function iterates through the JSON request and 
-// grab objects with properties drm:true and episodeCount > 0
+// grabs objects with properties drm:true and episodeCount > 0
 // returns error if JSON request is invalid
 module.exports = function(jsonObj) {
     var jsonResult = {};

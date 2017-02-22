@@ -1,7 +1,7 @@
 {
   "name": "nine-digital",
   "version": "1.0.0",
-  "description": "9Digital Coding Challenge - JSON Data Filter",
+  "description": "9Digital Coding Challenge - JSON Filter Web Service",
   "main": "server.js",
   "scripts": {
     "test": "mocha"
