@@ -19,6 +19,7 @@ describe('POST /', function() {
         server
         .post('/')
         .send(jsonObj)
+        .expect('Content-Type', /json/)
         .expect(200)
         .end(function(err, res){
             if (err) {
@@ -34,6 +35,7 @@ describe('POST /', function() {
         server
         .post('/')
         .send()
+        .expect('Content-Type', /json/)
         .expect(404)
         .end(function(err, res) {
             if (err) {
@@ -51,6 +53,7 @@ describe('POST /', function() {
         server
         .post('/')
         .send(jsonObj)
+        .expect('Content-Type', /json/)
         .expect(404)
         .end(function(err, res) {
             if (err) {
@@ -68,6 +71,25 @@ describe('POST /', function() {
         server
         .post('/')
         .send(jsonObj)
+        .expect('Content-Type', /json/)
+        .expect(404)
+        .end(function(err, res) {
+            if (err) {
+                done(err);
+            } else {
+                expect(JSON.stringify(res.body)).to.equal(errorResponse);
+                done();
+            }
+        });
+    });
+    
+    it('should return error given bad request', function(done) {
+        var jsonObj = JSON.parse(fs.readFileSync('test/test-cases/proper-request.json', 'utf8'));
+        
+        server
+        .post('/badrequest')
+        .send(jsonObj)
+        .expect('Content-Type', /json/)
         .expect(404)
         .end(function(err, res) {
             if (err) {

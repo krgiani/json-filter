@@ -20,7 +20,7 @@ module.exports = function(jsonObj) {
             });
             resolve(jsonResult);
         } else {
-            reject({error: 'Could not decode request: JSON parsing failed'});
+            reject(new Error());
         }
     });
 }
